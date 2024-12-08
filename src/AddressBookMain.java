@@ -10,6 +10,7 @@ public class AddressBookMain {
         do {
             System.out.println("\nChoose an option:");
             System.out.println("1. Add a new contact");
+            System.out.println("2.Display all contacts");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character left by nextInt()
@@ -38,6 +39,11 @@ public class AddressBookMain {
                     Contact newContact = new Contact(firstName, lastName, address, city, state, zip, phoneNumber, email);
                     addressBook.addContact(newContact);
                     System.out.println("Contact added successfully!");
+                    break;
+                case 2:
+                    // Display all contacts in the address book
+                    System.out.println("Displaying all contacts:");
+                    addressBook.displayContacts();
                     break;
 
                 default:
