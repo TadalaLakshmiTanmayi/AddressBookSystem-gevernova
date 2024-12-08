@@ -12,6 +12,7 @@ public class AddressBookMain {
             System.out.println("1. Add a new contact");
             System.out.println("2.Display all contacts");
             System.out.println("3.Edit an existing contact");
+            System.out.println("4.Delete a contact");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character left by nextInt()
@@ -56,6 +57,20 @@ public class AddressBookMain {
                     boolean edited = addressBook.editContact(firstNameToEdit, lastNameToEdit);
                     if (edited) {
                         System.out.println("Contact updated successfully.");
+                    } else {
+                        System.out.println("Contact not found.");
+                    }
+                    break;
+                case 4:
+                    // Delete a contact
+                    System.out.println("Enter the name of the contact to delete (FirstName LastName): ");
+                    String[] nameToDelete = scanner.nextLine().split(" ");
+                    String firstNameToDelete = nameToDelete[0];
+                    String lastNameToDelete = nameToDelete[1];
+
+                    boolean deleted = addressBook.deleteContact(firstNameToDelete, lastNameToDelete);
+                    if (deleted) {
+                        System.out.println("Contact deleted successfully.");
                     } else {
                         System.out.println("Contact not found.");
                     }

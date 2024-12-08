@@ -48,5 +48,17 @@ public class AddressBook {
         }
         return false;  // Contact not found
     }
+    // Add method in AddressBook.java to delete a contact
+    public boolean deleteContact(String firstName, String lastName) {
+        for (int i = 0; i < contacts.size(); i++) {
+            Contact contact = contacts.get(i);
+            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
+                contacts.remove(i);
+                return true;
+            }
+        }
+        return false;  // Contact not found
+    }
+
 
 }
