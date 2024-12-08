@@ -11,6 +11,7 @@ public class AddressBookMain {
             System.out.println("\nChoose an option:");
             System.out.println("1. Add a new contact");
             System.out.println("2.Display all contacts");
+            System.out.println("3.Edit an existing contact");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character left by nextInt()
@@ -45,6 +46,21 @@ public class AddressBookMain {
                     System.out.println("Displaying all contacts:");
                     addressBook.displayContacts();
                     break;
+                case 3:
+                    // Edit an existing contact
+                    System.out.println("Enter the name of the contact to edit (FirstName LastName): ");
+                    String[] nameToEdit = scanner.nextLine().split(" ");
+                    String firstNameToEdit = nameToEdit[0];
+                    String lastNameToEdit = nameToEdit[1];
+
+                    boolean edited = addressBook.editContact(firstNameToEdit, lastNameToEdit);
+                    if (edited) {
+                        System.out.println("Contact updated successfully.");
+                    } else {
+                        System.out.println("Contact not found.");
+                    }
+                    break;
+
 
                 default:
                     System.out.println("Invalid choice, please try again.");
@@ -53,7 +69,7 @@ public class AddressBookMain {
 
             System.out.println("Enter 0 to exit or any other number to continue:");
             i = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character again after reading integer input
+            scanner.nextLine();
 
         } while (i != 0);
 
