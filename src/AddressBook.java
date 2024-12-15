@@ -8,6 +8,9 @@ public class AddressBook {
     public AddressBook() {
         contacts = new ArrayList<>();
     }
+    public List<Contact> getContacts() {
+        return contacts;
+    }
 
     public void addContact(Contact contact) {
         // Check for duplicate contact before adding
