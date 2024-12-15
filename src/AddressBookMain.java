@@ -178,10 +178,11 @@ public class AddressBookMain {
 
         } while (i != 0);
     }
+
+    // Search for contacts by city across all address books
     private static void searchByCity(Map<String, AddressBook> addressBooks, String city) {
         List<Contact> result = addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.getContacts().stream())
-                .filter(contact -> contact.getCity().equalsIgnoreCase(city))
+                .flatMap(addressBook -> addressBook.searchByCity(city).stream())
                 .collect(Collectors.toList());
 
         if (result.isEmpty()) {
@@ -195,8 +196,7 @@ public class AddressBookMain {
     // Search for contacts by state across all address books
     private static void searchByState(Map<String, AddressBook> addressBooks, String state) {
         List<Contact> result = addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.getContacts().stream())
-                .filter(contact -> contact.getState().equalsIgnoreCase(state))
+                .flatMap(addressBook -> addressBook.searchByState(state).stream())
                 .collect(Collectors.toList());
 
         if (result.isEmpty()) {
@@ -206,5 +206,4 @@ public class AddressBookMain {
             result.forEach(System.out::println);
         }
     }
-
 }

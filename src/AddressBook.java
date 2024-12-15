@@ -1,30 +1,35 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBook {
     private List<Contact> contacts;
+    private Map<String, List<Contact>> cityDictionary;
+    private Map<String, List<Contact>> stateDictionary;
 
     public AddressBook() {
         contacts = new ArrayList<>();
+        cityDictionary = new HashMap<>();
+        stateDictionary = new HashMap<>();
     }
+
     public List<Contact> getContacts() {
         return contacts;
     }
 
+    // Add a contact and update city and state dictionaries
     public void addContact(Contact contact) {
-        // Check for duplicate contact before adding
-        boolean exists = contacts.stream()
-                .anyMatch(c -> c.equals(contact));  // Use the overridden equals method to check for duplicates
+        // Add the contact to the list
+        contacts.add(contact);
 
-        if (exists) {
-            System.out.println("This contact already exists in the Address Book.");
-        } else {
-            contacts.add(contact);
-            System.out.println("Contact added successfully!");
-        }
+        // Update city dictionary
+        cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+
+        // Update state dictionary
+        stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+
+        System.out.println("Contact added successfully!");
     }
 
+    // Display all contacts
     public void displayContacts() {
         if (contacts.isEmpty()) {
             System.out.println("No contacts in the Address Book.");
@@ -33,6 +38,16 @@ public class AddressBook {
                 System.out.println(contact);
             }
         }
+    }
+
+    // Search for contacts by city
+    public List<Contact> searchByCity(String city) {
+        return cityDictionary.getOrDefault(city, Collections.emptyList());
+    }
+
+    // Search for contacts by state
+    public List<Contact> searchByState(String state) {
+        return stateDictionary.getOrDefault(state, Collections.emptyList());
     }
 
     // Edit an existing contact
@@ -67,6 +82,11 @@ public class AddressBook {
             Contact contact = contacts.get(i);
             if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
                 contacts.remove(i);
+
+                // Update the dictionaries to remove the contact from city and state mappings
+                cityDictionary.getOrDefault(contact.getCity(), new ArrayList<>()).remove(contact);
+                stateDictionary.getOrDefault(contact.getState(), new ArrayList<>()).remove(contact);
+
                 return true;
             }
         }
