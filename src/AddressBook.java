@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBook {
     private List<Contact> contacts;
@@ -17,15 +18,9 @@ public class AddressBook {
 
     // Add a contact and update city and state dictionaries
     public void addContact(Contact contact) {
-        // Add the contact to the list
         contacts.add(contact);
-
-        // Update city dictionary
         cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
-
-        // Update state dictionary
         stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
-
         System.out.println("Contact added successfully!");
     }
 
@@ -40,14 +35,36 @@ public class AddressBook {
         }
     }
 
-    // Search for contacts by city
-    public List<Contact> searchByCity(String city) {
-        return cityDictionary.getOrDefault(city, Collections.emptyList());
+    // Search for contacts by city and return a count
+    public void searchByCityWithCount(String city) {
+        long count = contacts.stream()
+                .filter(contact -> contact.getCity().equalsIgnoreCase(city))
+                .count();
+
+        if (count > 0) {
+            System.out.println("Number of contacts in city '" + city + "': " + count);
+            contacts.stream()
+                    .filter(contact -> contact.getCity().equalsIgnoreCase(city))
+                    .forEach(System.out::println);
+        } else {
+            System.out.println("No contacts found in city: " + city);
+        }
     }
 
-    // Search for contacts by state
-    public List<Contact> searchByState(String state) {
-        return stateDictionary.getOrDefault(state, Collections.emptyList());
+    // Search for contacts by state and return a count
+    public void searchByStateWithCount(String state) {
+        long count = contacts.stream()
+                .filter(contact -> contact.getState().equalsIgnoreCase(state))
+                .count();
+
+        if (count > 0) {
+            System.out.println("Number of contacts in state '" + state + "': " + count);
+            contacts.stream()
+                    .filter(contact -> contact.getState().equalsIgnoreCase(state))
+                    .forEach(System.out::println);
+        } else {
+            System.out.println("No contacts found in state: " + state);
+        }
     }
 
     // Edit an existing contact

@@ -122,88 +122,58 @@ public class AddressBookMain {
                         Contact newContact = new Contact(firstName, lastName, address, city, state, zip, phoneNumber, email);
                         addressBook.addContact(newContact);
 
-
                         // Ask if the user wants to add another contact
-                        System.out.println("Do you want to add another contact? (yes/no): ");
-                        String response = scanner.nextLine().toLowerCase();
-                        if (response.equals("no")) {
-                            addMore = false;
-                        }
+                        System.out.println("Do you want to add another contact? (y/n)");
+                        String addMoreChoice = scanner.nextLine();
+                        addMore = addMoreChoice.equalsIgnoreCase("y");
                     }
                     break;
                 case 2:
-                    // Display all contacts in the address book
-                    System.out.println("Displaying all contacts:");
+                    // Display all contacts
                     addressBook.displayContacts();
                     break;
                 case 3:
-                    // Edit an existing contact
-                    System.out.println("Enter the name of the contact to edit (FirstName LastName): ");
-                    String[] nameToEdit = scanner.nextLine().split(" ");
-                    String firstNameToEdit = nameToEdit[0];
-                    String lastNameToEdit = nameToEdit[1];
-
-                    boolean edited = addressBook.editContact(firstNameToEdit, lastNameToEdit);
-                    if (edited) {
-                        System.out.println("Contact updated successfully.");
-                    } else {
+                    // Edit a contact
+                    System.out.println("Enter First Name and Last Name of the contact to edit:");
+                    String firstName = scanner.nextLine();
+                    String lastName = scanner.nextLine();
+                    if (!addressBook.editContact(firstName, lastName)) {
                         System.out.println("Contact not found.");
                     }
                     break;
                 case 4:
                     // Delete a contact
-                    System.out.println("Enter the name of the contact to delete (FirstName LastName): ");
-                    String[] nameToDelete = scanner.nextLine().split(" ");
-                    String firstNameToDelete = nameToDelete[0];
-                    String lastNameToDelete = nameToDelete[1];
-
-                    boolean deleted = addressBook.deleteContact(firstNameToDelete, lastNameToDelete);
-                    if (deleted) {
-                        System.out.println("Contact deleted successfully.");
-                    } else {
+                    System.out.println("Enter First Name and Last Name of the contact to delete:");
+                    firstName = scanner.nextLine();
+                    lastName = scanner.nextLine();
+                    if (!addressBook.deleteContact(firstName, lastName)) {
                         System.out.println("Contact not found.");
                     }
                     break;
                 case 5:
-                    // Go back to the main menu
-                    return;
+                    // Go back to main menu
+                    i = 4;
+                    break;
                 default:
                     System.out.println("Invalid choice, please try again.");
                     break;
             }
-
-            System.out.println("Enter 0 to exit or any other number to continue:");
-            i = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
-
-        } while (i != 0);
+        } while (i != 4);
     }
 
-    // Search for contacts by city across all address books
+    // Helper method for searching by city
     private static void searchByCity(Map<String, AddressBook> addressBooks, String city) {
-        List<Contact> result = addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.searchByCity(city).stream())
-                .collect(Collectors.toList());
-
-        if (result.isEmpty()) {
-            System.out.println("No contacts found in city: " + city);
-        } else {
-            System.out.println("Contacts found in city: " + city);
-            result.forEach(System.out::println);
+        for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
+            System.out.println("\nSearching in Address Book: " + entry.getKey());
+            entry.getValue().searchByCityWithCount(city);
         }
     }
 
-    // Search for contacts by state across all address books
+    // Helper method for searching by state
     private static void searchByState(Map<String, AddressBook> addressBooks, String state) {
-        List<Contact> result = addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.searchByState(state).stream())
-                .collect(Collectors.toList());
-
-        if (result.isEmpty()) {
-            System.out.println("No contacts found in state: " + state);
-        } else {
-            System.out.println("Contacts found in state: " + state);
-            result.forEach(System.out::println);
+        for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
+            System.out.println("\nSearching in Address Book: " + entry.getKey());
+            entry.getValue().searchByStateWithCount(state);
         }
     }
 }
