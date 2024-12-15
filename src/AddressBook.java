@@ -1,4 +1,3 @@
-// AddressBook.java
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +10,16 @@ public class AddressBook {
     }
 
     public void addContact(Contact contact) {
-        contacts.add(contact);
+        // Check for duplicate contact before adding
+        boolean exists = contacts.stream()
+                .anyMatch(c -> c.equals(contact));  // Use the overridden equals method to check for duplicates
+
+        if (exists) {
+            System.out.println("This contact already exists in the Address Book.");
+        } else {
+            contacts.add(contact);
+            System.out.println("Contact added successfully!");
+        }
     }
 
     public void displayContacts() {
@@ -23,7 +31,8 @@ public class AddressBook {
             }
         }
     }
-    // Add method in AddressBook.java to edit a contact
+
+    // Edit an existing contact
     public boolean editContact(String firstName, String lastName) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
@@ -48,7 +57,8 @@ public class AddressBook {
         }
         return false;  // Contact not found
     }
-    // Add method in AddressBook.java to delete a contact
+
+    // Delete a contact
     public boolean deleteContact(String firstName, String lastName) {
         for (int i = 0; i < contacts.size(); i++) {
             Contact contact = contacts.get(i);
@@ -59,6 +69,4 @@ public class AddressBook {
         }
         return false;  // Contact not found
     }
-
-
 }

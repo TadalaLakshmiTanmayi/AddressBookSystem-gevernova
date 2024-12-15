@@ -100,7 +100,7 @@ public class AddressBookMain {
                         // Create and add the new contact
                         Contact newContact = new Contact(firstName, lastName, address, city, state, zip, phoneNumber, email);
                         addressBook.addContact(newContact);
-                        System.out.println("Contact added successfully!");
+
 
                         // Ask if the user wants to add another contact
                         System.out.println("Do you want to add another contact? (yes/no): ");
