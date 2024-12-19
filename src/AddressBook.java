@@ -115,4 +115,21 @@ public class AddressBook {
                 .thenComparing(Contact::getLastName));
         System.out.println("Contacts sorted by name.");
     }
+    // Sort contacts by city
+    public void sortContactsByCity() {
+        Collections.sort(contacts, Comparator.comparing(Contact::getCity));
+        System.out.println("Contacts sorted by City.");
+    }
+
+    // Sort contacts by state
+    public void sortContactsByState() {
+        Collections.sort(contacts, Comparator.comparing(Contact::getState));
+        System.out.println("Contacts sorted by State.");
+    }
+
+    // Sort contacts by zip
+    public void sortContactsByZip() {
+        Collections.sort(contacts, Comparator.comparing(Contact::getZip));
+        System.out.println("Contacts sorted by Zip.");
+    }
 }

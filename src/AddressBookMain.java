@@ -88,7 +88,10 @@ public class AddressBookMain {
             System.out.println("3. Edit an existing contact");
             System.out.println("4. Delete a contact");
             System.out.println("5. Sort contacts by name");
-            System.out.println("6. Go back to main menu");
+            System.out.println("6. Sort contacts by City");
+            System.out.println("7. Sort contacts by State");
+            System.out.println("8. Sort contacts by Zip");
+            System.out.println("9. Go back to main menu");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -152,6 +155,18 @@ public class AddressBookMain {
                     addressBook.sortContactsByName();
                     break;
                 case 6:
+                    // Sort contacts by City
+                    addressBook.sortContactsByCity();
+                    break;
+                case 7:
+                    // Sort contacts by State
+                    addressBook.sortContactsByState();
+                    break;
+                case 8:
+                    // Sort contacts by Zip
+                    addressBook.sortContactsByZip();
+                    break;
+                case 9:
                     // Go back to main menu
                     return;
                 default:
