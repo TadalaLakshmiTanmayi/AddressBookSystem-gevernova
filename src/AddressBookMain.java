@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class AddressBookMain {
     public static void main(String[] args) {
@@ -12,9 +11,8 @@ public class AddressBookMain {
         Map<String, AddressBook> addressBooks = new HashMap<>();
         AddressBook currentAddressBook = null;
 
-        int i = 1;
-
-        do {
+        // Main program loop
+        while (true) {
             System.out.println("\nChoose an option:");
             System.out.println("1. Create a new Address Book");
             System.out.println("2. Choose an existing Address Book");
@@ -45,7 +43,7 @@ public class AddressBookMain {
 
                     if (addressBooks.containsKey(bookName)) {
                         currentAddressBook = addressBooks.get(bookName);
-                        manageAddressBook(scanner, currentAddressBook);
+                        manageAddressBook(scanner, currentAddressBook); // Manage the selected address book
                     } else {
                         System.out.println("Address Book not found.");
                     }
@@ -69,32 +67,31 @@ public class AddressBookMain {
                     }
                     break;
                 case 4:
-                    // Exit
+                    // Exit the program
                     System.out.println("Thank you for using the Address Book program.");
-                    break;
+                    scanner.close();
+                    return; // Exit the program immediately
                 default:
                     System.out.println("Invalid choice, please try again.");
                     break;
             }
-        } while (i != 4);
-
-        scanner.close();
+        }
     }
 
     // Helper method to manage a selected AddressBook
     private static void manageAddressBook(Scanner scanner, AddressBook addressBook) {
-        int i = 1;
-
-        do {
+        // Main loop for managing address book
+        while (true) {
             System.out.println("\nChoose an option for the current Address Book:");
             System.out.println("1. Add a new contact");
             System.out.println("2. Display all contacts");
             System.out.println("3. Edit an existing contact");
             System.out.println("4. Delete a contact");
-            System.out.println("5. Go back to main menu");
+            System.out.println("5. Sort contacts by name");
+            System.out.println("6. Go back to main menu");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character left by nextInt()
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -151,14 +148,17 @@ public class AddressBookMain {
                     }
                     break;
                 case 5:
-                    // Go back to main menu
-                    i = 4;
+                    // Sort contacts by name
+                    addressBook.sortContactsByName();
                     break;
+                case 6:
+                    // Go back to main menu
+                    return;
                 default:
                     System.out.println("Invalid choice, please try again.");
                     break;
             }
-        } while (i != 4);
+        }
     }
 
     // Helper method for searching by city

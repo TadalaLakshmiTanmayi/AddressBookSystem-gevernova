@@ -109,4 +109,10 @@ public class AddressBook {
         }
         return false;  // Contact not found
     }
+    // Sort contacts by first and last name alphabetically
+    public void sortContactsByName() {
+        Collections.sort(contacts, Comparator.comparing(Contact::getFirstName)
+                .thenComparing(Contact::getLastName));
+        System.out.println("Contacts sorted by name.");
+    }
 }
