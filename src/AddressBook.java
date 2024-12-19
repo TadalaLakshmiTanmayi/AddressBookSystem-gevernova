@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -132,4 +133,50 @@ public class AddressBook {
         Collections.sort(contacts, Comparator.comparing(Contact::getZip));
         System.out.println("Contacts sorted by Zip.");
     }
+    // Save the address book to a file
+    public void saveToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (Contact contact : contacts) {
+                writer.write(contact.getFirstName() + "," +
+                        contact.getLastName() + "," +
+                        contact.getAddress() + "," +
+                        contact.getCity() + "," +
+                        contact.getState() + "," +
+                        contact.getZip() + "," +
+                        contact.getPhoneNumber() + "," +
+                        contact.getEmail());
+                writer.newLine();  // New line after each contact
+            }
+            System.out.println("Address Book saved to file: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error saving Address Book to file: " + e.getMessage());
+        }
+    }
+
+    // Load the address book from a file
+    public void loadFromFile(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] contactData = line.split(",");
+                if (contactData.length == 8) {  // Make sure we have all 8 fields
+                    Contact contact = new Contact(
+                            contactData[0],   // First Name
+                            contactData[1],   // Last Name
+                            contactData[2],   // Address
+                            contactData[3],   // City
+                            contactData[4],   // State
+                            contactData[5],   // Zip
+                            contactData[6],   // Phone Number
+                            contactData[7]    // Email
+                    );
+                    addContact(contact);  // Add the contact to the AddressBook
+                }
+            }
+            System.out.println("Address Book loaded from file: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error loading Address Book from file: " + e.getMessage());
+        }
+    }
+
 }

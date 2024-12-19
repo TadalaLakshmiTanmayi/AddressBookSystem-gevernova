@@ -17,7 +17,9 @@ public class AddressBookMain {
             System.out.println("1. Create a new Address Book");
             System.out.println("2. Choose an existing Address Book");
             System.out.println("3. Search by City or State");
-            System.out.println("4. Exit");
+            System.out.println("4. Save Address Book to file");
+            System.out.println("5. Load Address Book from file");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character left by nextInt()
@@ -67,6 +69,30 @@ public class AddressBookMain {
                     }
                     break;
                 case 4:
+                    // Save Address Book to file
+                    System.out.print("Enter the name of the Address Book to save: ");
+                    String saveName = scanner.nextLine();
+                    if (addressBooks.containsKey(saveName)) {
+                        currentAddressBook = addressBooks.get(saveName);
+                        System.out.print("Enter the filename to save the address book: ");
+                        String filename = scanner.nextLine();
+                        currentAddressBook.saveToFile(filename);
+                    } else {
+                        System.out.println("Address Book not found.");
+                    }
+                    break;
+                case 5:
+                    // Load Address Book from file
+                    System.out.print("Enter the filename to load the address book: ");
+                    String loadFilename = scanner.nextLine();
+                    System.out.print("Enter the name for the Address Book: ");
+                    String loadName = scanner.nextLine();
+                    AddressBook loadedBook = new AddressBook();
+                    loadedBook.loadFromFile(loadFilename);
+                    addressBooks.put(loadName, loadedBook);
+                    System.out.println("Address Book loaded successfully.");
+                    break;
+                case 6:
                     // Exit the program
                     System.out.println("Thank you for using the Address Book program.");
                     scanner.close();
